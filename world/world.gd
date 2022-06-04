@@ -1,17 +1,15 @@
 extends Node2D
 
-var bird = preload("res://bird/Bird.tscn")
-var wall = preload("res://wall/Wall.tscn")
+var Bird = preload("res://bird/Bird.tscn")
+var Wall = preload("res://wall/Wall.tscn")
 
-var population = []
-var pop_size = 25
-var mutation_rate = 0.01
-var generation = 0
+export var pop_size = 25
+export var gap = 150
+export var min_gap = 50
+export var wall_offset = 100
+export var max_offset = 300
 
-var gap = 150
-var min_gap = 50
-var wall_offset = 100
-var max_offset = 300
+var population = Population.new(Bird, pop_size)
 
 var best_score = 0
 var running = true
@@ -22,13 +20,11 @@ onready var best_label = $UI/BestNumber
 
 
 func _ready():
-	population.resize(pop_size)
-	for i in pop_size:
-		var b = bird.instance()
-		b.connect("score_up", self, "_on_Bird_score_up")
-		b.connect("dead", self, "_on_Bird_dead")
-		population[i] = b
-		add_child(b)
+	for bird in population.scenes:
+		bird.connect("score_up", self, "_on_Bird_score_up")
+		bird.connect("dead", self, "_on_Bird_dead")
+		add_child(bird)
+
 	create_wall()
 
 
@@ -36,7 +32,7 @@ func create_wall():
 	var mid_screen_y = screen.y / 2
 	var wall_y = mid_screen_y + rand_range(-1, 1) * wall_offset
 	var wall_pos = Vector2(screen.x + 30, wall_y)
-	var w = wall.instance()
+	var w = Wall.instance()
 	w.set_gap(gap)
 	w.position = wall_pos
 	add_child(w)
@@ -65,8 +61,8 @@ func _on_Bird_score_up(score, _bird):
 func _on_Bird_dead(_bird):
 	# everytime a bird dies, check if all birds are dead
 	var all_dead = true
-	for b in population:
-		if b.alive:
+	for bird in population.scenes:
+		if bird.alive:
 			all_dead = false
 			break
 	if all_dead:
@@ -74,6 +70,8 @@ func _on_Bird_dead(_bird):
 
 
 func reset():
+	running = false
+	$WallTimer.stop()
 	gap = 150
 	wall_offset = 100
 
@@ -84,5 +82,7 @@ func reset():
 	for w in walls:
 		w.queue_free()
 
-	for b in population:
-		b.reincarnate(b.brain)
+	population.reincarnate()
+	running = true
+	create_wall()
+	$WallTimer.start()
