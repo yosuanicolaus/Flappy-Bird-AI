@@ -15,6 +15,7 @@ func _init(input_count, output_count):
 	for i in input_count:
 		weights[i] = []
 		weights[i].resize(output_count)
+	_randomize()
 
 
 func _randomize():
