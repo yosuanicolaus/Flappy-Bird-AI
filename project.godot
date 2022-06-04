@@ -8,6 +8,16 @@
 
 config_version=4
 
+_global_script_classes=[ {
+"base": "Object",
+"class": "Level",
+"language": "GDScript",
+"path": "res://brain/level.gd"
+} ]
+_global_script_class_icons={
+"Level": ""
+}
+
 [application]
 
 config/name="Flappy Bird AI"
