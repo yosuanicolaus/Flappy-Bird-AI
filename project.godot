@@ -13,9 +13,15 @@ _global_script_classes=[ {
 "class": "Level",
 "language": "GDScript",
 "path": "res://brain/level.gd"
+}, {
+"base": "Object",
+"class": "NeuralNetwork",
+"language": "GDScript",
+"path": "res://brain/neural_network.gd"
 } ]
 _global_script_class_icons={
-"Level": ""
+"Level": "",
+"NeuralNetwork": ""
 }
 
 [application]
