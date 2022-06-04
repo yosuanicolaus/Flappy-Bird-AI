@@ -1,19 +1,22 @@
 extends KinematicBody2D
 
 export var gravity = 20
-export var jump_force = 360
-export var max_speed = 200
+export var jump_force = 363
+export var max_speed = 400
 
 var velocity = Vector2()
 var alive = true
 var die_count = 0
 var score = 0
 
-signal score_up(score)
+signal score_up(score, bird)
 signal dead(bird)
-var emitted_dead = false
 
-onready var brain = NeuralNetwork.new([2, 4, 1])
+var brain = NeuralNetwork.new([2, 4, 1])
+
+
+func _ready():
+	position = get_tree().get_root().get_size() / 2
 
 
 func _physics_process(_delta):
@@ -21,7 +24,7 @@ func _physics_process(_delta):
 		feed_brain()
 		active()
 	else:
-		die()
+		dying()
 
 
 func feed_brain():
@@ -52,22 +55,34 @@ func jump():
 	velocity.y = -jump_force
 
 
-func die():
-	if not emitted_dead:
-		emit_signal("dead", self)
-		emitted_dead = true
+func dying():
 	position.x -= 1
 	die_count += 1
 	if die_count >= 100:
-		queue_free()
+		hide()
+		set_process(false)
+
+
+func reincarnate(new_brain: NeuralNetwork):
+	brain = new_brain
+	position = get_tree().get_root().get_size() / 2
+	score = 0
+	die_count = 0
+	alive = true
+	velocity = Vector2()
+	$Detect.set_deferred("monitoring", true)
+	show()
+	set_process(true)
 
 
 func _on_Detect_body_entered(_body: Node):
 	# dead
 	modulate = Color(.5, .5, .5, .5)
 	alive = false
+	$Detect.set_deferred("monitoring", false)
+	emit_signal("dead", self)
 
 
 func _on_ScoreDetector_area_entered(_area: Area2D):
 	score += 1
-	emit_signal("score_up", score)
+	emit_signal("score_up", score, self)

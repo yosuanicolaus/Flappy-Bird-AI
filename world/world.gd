@@ -1,11 +1,19 @@
 extends Node2D
 
+var bird = preload("res://bird/Bird.tscn")
+var wall = preload("res://wall/Wall.tscn")
+
+var population = []
+var pop_size = 25
+var mutation_rate = 0.01
+var generation = 0
+
 var gap = 150
 var min_gap = 50
 var wall_offset = 100
 var max_offset = 300
-var wall = preload("res://wall/Wall.tscn")
 
+var best_score = 0
 var running = true
 
 onready var screen = get_viewport_rect().size
@@ -14,6 +22,13 @@ onready var best_label = $UI/BestNumber
 
 
 func _ready():
+	population.resize(pop_size)
+	for i in pop_size:
+		var b = bird.instance()
+		b.connect("score_up", self, "_on_Bird_score_up")
+		b.connect("dead", self, "_on_Bird_dead")
+		population[i] = b
+		add_child(b)
 	create_wall()
 
 
@@ -40,13 +55,23 @@ func increase_difficulty():
 
 
 func _on_WallTimer_timeout():
-	create_wall()
-	increase_difficulty()
+	if running:
+		create_wall()
+		increase_difficulty()
 
 
-func _on_Bird_score_up(score):
+func _on_Bird_score_up(score, _bird):
 	score_label.text = str(score)
+	if score > best_score:
+		best_score = score
+		best_label.text = str(best_score)
 
 
 func _on_Bird_dead(_bird):
-	running = false
+	var all_dead = true
+	for b in population:
+		if b.alive:
+			all_dead = false
+			break
+	if all_dead:
+		running = false
