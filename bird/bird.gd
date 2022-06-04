@@ -13,23 +13,43 @@ signal score_up(score)
 signal dead(bird)
 var emitted_dead = false
 
+onready var brain = NeuralNetwork.new([2, 4, 1])
+
 
 func _physics_process(_delta):
 	if alive:
+		feed_brain()
 		active()
 	else:
 		die()
 
 
+func feed_brain():
+	var inputs = []
+	var walls = get_tree().get_nodes_in_group("walls")
+	var target
+	for wall in walls:
+		if wall.position.x < position.x:
+			continue
+		else:
+			target = wall
+			break
+	if target:
+		inputs.append(target.position.x - position.x)
+		inputs.append(target.position.y - position.y)
+		var outputs = NeuralNetwork.feed_forward(inputs, brain)
+		if outputs[0] == 1:
+			jump()
+
+
 func active():
 	velocity.y += gravity
-
-	if Input.is_action_just_pressed("ui_accept"):
-		velocity.y = -jump_force
-	if velocity.y > max_speed:
-		velocity.y = max_speed
-
+	velocity.y = clamp(velocity.y, -max_speed, max_speed)
 	velocity = move_and_slide(velocity, Vector2.UP)
+
+
+func jump():
+	velocity.y = -jump_force
 
 
 func die():
