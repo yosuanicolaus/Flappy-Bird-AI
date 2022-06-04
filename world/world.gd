@@ -14,7 +14,7 @@ onready var best_label = $UI/BestNumber
 
 
 func _ready():
-	pass
+	create_wall()
 
 
 func _input(_event):

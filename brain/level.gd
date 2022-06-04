@@ -23,7 +23,7 @@ func _randomize():
 		for j in len(outputs):
 			weights[i][j] = rand_range(-1, 1)
 
-	for i in len(inputs):
+	for i in len(biases):
 		biases[i] = rand_range(-1, 1)
 
 

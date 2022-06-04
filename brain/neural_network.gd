@@ -7,7 +7,7 @@ var levels = []
 func _init(neuron_counts: Array):
 	for i in len(neuron_counts) - 1:
 		var l = Level.new(neuron_counts[i], neuron_counts[i + 1])
-		levels.push_back(l)
+		levels.append(l)
 
 
 static func feed_forward(given_inputs, network: NeuralNetwork):
