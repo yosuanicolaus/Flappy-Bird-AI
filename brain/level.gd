@@ -1,4 +1,4 @@
-extends Object
+extends Resource
 class_name Level
 
 var inputs = []
@@ -42,3 +42,27 @@ static func feed_forward(given_inputs, level: Level):
 			level.outputs[i] = 0
 
 	return level.outputs
+
+
+func copy():
+	var new_level = get_script().new(len(inputs), len(outputs))
+
+	for i in len(inputs):
+		for j in len(outputs):
+			new_level.weights[i][j] = weights[i][j]
+
+	for i in len(biases):
+		new_level.biases[i] = biases[i]
+
+	return new_level
+
+
+func mutate(rate):
+	for i in len(inputs):
+		for j in len(outputs):
+			if randf() < rate:
+				weights[i][j] = rand_range(-1, 1)
+
+	for i in len(biases):
+		if randf() < rate:
+			biases[i] = rand_range(-1, 1)

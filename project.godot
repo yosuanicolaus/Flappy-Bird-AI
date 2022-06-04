@@ -9,12 +9,12 @@
 config_version=4
 
 _global_script_classes=[ {
-"base": "Object",
+"base": "Resource",
 "class": "Level",
 "language": "GDScript",
 "path": "res://brain/level.gd"
 }, {
-"base": "Object",
+"base": "Resource",
 "class": "NeuralNetwork",
 "language": "GDScript",
 "path": "res://brain/neural_network.gd"
