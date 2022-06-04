@@ -43,9 +43,9 @@ func die():
 
 
 func _on_Detect_body_entered(_body: Node):
+	# dead
 	modulate = Color(.5, .5, .5, .5)
 	alive = false
-	print("dead")
 
 
 func _on_ScoreDetector_area_entered(_area: Area2D):

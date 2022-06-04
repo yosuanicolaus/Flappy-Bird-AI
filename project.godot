@@ -14,6 +14,11 @@ config/name="Flappy Bird AI"
 run/main_scene="res://world/World.tscn"
 config/icon="res://icon.png"
 
+[display]
+
+window/size/width=360
+window/size/resizable=false
+
 [layer_names]
 
 2d_physics/layer_1="Bird"

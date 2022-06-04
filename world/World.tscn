@@ -5,22 +5,23 @@
 [ext_resource path="res://_config/athletic_font.tres" type="Theme" id=3]
 
 [sub_resource type="RectangleShape2D" id=1]
-extents = Vector2( 512, 20 )
+extents = Vector2( 100, 20 )
 
 [node name="World" type="Node2D"]
 script = ExtResource( 2 )
 
 [node name="Bird" parent="." instance=ExtResource( 1 )]
-position = Vector2( 499, 311 )
+position = Vector2( 172, 311 )
 
 [node name="WallTimer" type="Timer" parent="."]
 wait_time = 2.0
 autostart = true
 
 [node name="DeadZone" type="Node2D" parent="."]
+position = Vector2( 172, 0 )
 
 [node name="DeadUp" type="StaticBody2D" parent="DeadZone"]
-position = Vector2( 515, -21 )
+position = Vector2( 0, -21 )
 collision_layer = 2
 collision_mask = 0
 
@@ -28,7 +29,7 @@ collision_mask = 0
 shape = SubResource( 1 )
 
 [node name="DeadDown" type="StaticBody2D" parent="DeadZone"]
-position = Vector2( 515, 624 )
+position = Vector2( 0, 624 )
 collision_layer = 2
 collision_mask = 0
 
