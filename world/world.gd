@@ -32,11 +32,6 @@ func _ready():
 	create_wall()
 
 
-func _input(_event):
-	if not running and Input.is_action_just_pressed("ui_accept"):
-		var _status = get_tree().reload_current_scene()
-
-
 func create_wall():
 	var mid_screen_y = screen.y / 2
 	var wall_y = mid_screen_y + rand_range(-1, 1) * wall_offset
@@ -68,10 +63,26 @@ func _on_Bird_score_up(score, _bird):
 
 
 func _on_Bird_dead(_bird):
+	# everytime a bird dies, check if all birds are dead
 	var all_dead = true
 	for b in population:
 		if b.alive:
 			all_dead = false
 			break
 	if all_dead:
-		running = false
+		reset()
+
+
+func reset():
+	gap = 150
+	wall_offset = 100
+
+	# 2 seconds delay before going to next generation
+	yield(get_tree().create_timer(2), "timeout")
+
+	var walls = get_tree().get_nodes_in_group("walls")
+	for w in walls:
+		w.queue_free()
+
+	for b in population:
+		b.reincarnate(b.brain)

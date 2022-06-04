@@ -70,6 +70,7 @@ func reincarnate(new_brain: NeuralNetwork):
 	die_count = 0
 	alive = true
 	velocity = Vector2()
+	modulate = Color(1, 1, 1, 1)
 	$Detect.set_deferred("monitoring", true)
 	show()
 	set_process(true)
