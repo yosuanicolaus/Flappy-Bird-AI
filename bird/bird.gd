@@ -1,4 +1,4 @@
-extends KinematicBody2D
+extends Node2D
 
 export var gravity = 20
 export var jump_force = 363
@@ -16,13 +16,14 @@ var brain = NeuralNetwork.new([2, 4, 1])
 
 
 func _ready():
+	$AnimatedSprite.frame = randi() % 9
 	position = get_tree().get_root().get_size() / 2
 
 
-func _physics_process(_delta):
+func _physics_process(delta):
 	if alive:
 		feed_brain()
-		active()
+		active(delta)
 	else:
 		dying()
 
@@ -45,10 +46,10 @@ func feed_brain():
 			jump()
 
 
-func active():
+func active(delta):
 	velocity.y += gravity
 	velocity.y = clamp(velocity.y, -max_speed, max_speed)
-	velocity = move_and_slide(velocity, Vector2.UP)
+	position += velocity * delta
 
 
 func jump():
@@ -63,8 +64,7 @@ func dying():
 		set_process(false)
 
 
-func reincarnate(new_brain: NeuralNetwork):
-	brain = new_brain
+func reincarnate():
 	position = get_tree().get_root().get_size() / 2
 	score = 0
 	die_count = 0
@@ -84,6 +84,6 @@ func _on_Detect_body_entered(_body: Node):
 	emit_signal("dead", self)
 
 
-func _on_ScoreDetector_area_entered(_area: Area2D):
+func _on_Detect_area_entered(_area:Area2D):
 	score += 1
 	emit_signal("score_up", score, self)

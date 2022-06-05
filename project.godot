@@ -22,7 +22,7 @@ _global_script_classes=[ {
 "base": "Object",
 "class": "Population",
 "language": "GDScript",
-"path": "res://wall/population.gd"
+"path": "res://world/population.gd"
 } ]
 _global_script_class_icons={
 "Level": "",
@@ -38,7 +38,7 @@ config/icon="res://icon.png"
 
 [display]
 
-window/size/width=360
+window/size/width=400
 window/size/resizable=false
 
 [layer_names]

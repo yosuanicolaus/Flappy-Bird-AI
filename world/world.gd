@@ -3,16 +3,17 @@ extends Node2D
 var Bird = preload("res://bird/Bird.tscn")
 var Wall = preload("res://wall/Wall.tscn")
 
-export var pop_size = 25
-export var gap = 150
-export var min_gap = 50
-export var wall_offset = 100
-export var max_offset = 300
+var pop_size = 100
+var gap = 150
+var min_gap = 50
+var wall_offset = 100
+var max_offset = 300
 
 var population = Population.new(Bird, pop_size)
 
 var best_score = 0
 var running = true
+var turbo = false
 
 onready var screen = get_viewport_rect().size
 onready var score_label = $UI/ScoreNumber
@@ -26,6 +27,16 @@ func _ready():
 		add_child(bird)
 
 	create_wall()
+
+
+func _input(event):
+	if event.is_action_pressed("ui_accept"):
+		turbo = not turbo
+		if turbo:
+			Engine.time_scale = 4
+		else:
+			Engine.time_scale = 1
+
 
 
 func create_wall():
