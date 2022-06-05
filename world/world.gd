@@ -30,13 +30,21 @@ func _ready():
 
 
 func _input(event):
-	if event.is_action_pressed("ui_accept"):
-		turbo = not turbo
-		if turbo:
-			Engine.time_scale = 4
-		else:
+	if event is InputEventKey:
+		if event.scancode == KEY_ESCAPE:
+			running = not running
+			if running:
+				Engine.time_scale = 1
+			else:
+				Engine.time_scale = 0
+		if event.scancode == KEY_1:
 			Engine.time_scale = 1
-
+		if event.scancode == KEY_2:
+			Engine.time_scale = 2
+		if event.scancode == KEY_3:
+			Engine.time_scale = 3
+		if event.scancode == KEY_4:
+			Engine.time_scale = 4
 
 
 func create_wall():
@@ -70,13 +78,10 @@ func _on_Bird_score_up(score, _bird):
 
 
 func _on_Bird_dead(_bird):
-	# everytime a bird dies, check if all birds are dead
-	var all_dead = true
-	for bird in population.scenes:
-		if bird.alive:
-			all_dead = false
-			break
-	if all_dead:
+	# reset simulation when all birds are dead
+	pop_size -= 1
+	if pop_size == 0:
+		pop_size = 100
 		reset()
 
 

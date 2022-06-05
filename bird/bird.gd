@@ -3,6 +3,7 @@ extends Node2D
 export var gravity = 20
 export var jump_force = 363
 export var max_speed = 400
+var fps = Engine.iterations_per_second
 
 var velocity = Vector2()
 var alive = true
@@ -22,13 +23,13 @@ func _ready():
 
 func _physics_process(delta):
 	if alive:
-		feed_brain()
+		feed_brain(delta)
 		active(delta)
 	else:
 		dying()
 
 
-func feed_brain():
+func feed_brain(delta):
 	var inputs = []
 	var walls = get_tree().get_nodes_in_group("walls")
 	var target
@@ -43,17 +44,17 @@ func feed_brain():
 		inputs.append(target.position.y - position.y)
 		var outputs = NeuralNetwork.feed_forward(inputs, brain)
 		if outputs[0] == 1:
-			jump()
+			jump(delta)
 
 
 func active(delta):
-	velocity.y += gravity
+	velocity.y += gravity * delta * fps
 	velocity.y = clamp(velocity.y, -max_speed, max_speed)
 	position += velocity * delta
 
 
-func jump():
-	velocity.y = -jump_force
+func jump(delta):
+	velocity.y = -jump_force * delta * fps
 
 
 func dying():
@@ -84,6 +85,6 @@ func _on_Detect_body_entered(_body: Node):
 	emit_signal("dead", self)
 
 
-func _on_Detect_area_entered(_area:Area2D):
+func _on_Detect_area_entered(_area: Area2D):
 	score += 1
 	emit_signal("score_up", score, self)
