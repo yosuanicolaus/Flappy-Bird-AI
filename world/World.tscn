@@ -61,4 +61,43 @@ margin_right = 187.0
 margin_bottom = 81.0
 text = "0"
 
+[node name="AverageLabel" type="Label" parent="UI"]
+margin_left = 221.0
+margin_right = 330.0
+margin_bottom = 41.0
+text = "Average"
+
+[node name="AverageNumber" type="Label" parent="UI"]
+margin_left = 344.0
+margin_right = 428.0
+margin_bottom = 41.0
+text = "0"
+
+[node name="AliveLabel" type="Label" parent="UI"]
+margin_left = 221.0
+margin_top = 40.0
+margin_right = 313.0
+margin_bottom = 81.0
+text = "Alive"
+
+[node name="AliveNumber" type="Label" parent="UI"]
+margin_left = 344.0
+margin_top = 40.0
+margin_right = 428.0
+margin_bottom = 81.0
+text = "0"
+
+[node name="GenLabel" type="Label" parent="UI"]
+margin_top = 81.0
+margin_right = 92.0
+margin_bottom = 122.0
+text = "Gen"
+
+[node name="GenNumber" type="Label" parent="UI"]
+margin_left = 103.0
+margin_top = 81.0
+margin_right = 187.0
+margin_bottom = 122.0
+text = "0"
+
 [connection signal="timeout" from="WallTimer" to="." method="_on_WallTimer_timeout"]

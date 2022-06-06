@@ -10,14 +10,19 @@ var wall_offset = 100
 var max_offset = 300
 
 var population = Population.new(Bird, pop_size)
-
 var best_score = 0
+var gen = 0
+var average = 0
+var alive = 100
 var running = true
-var turbo = false
 
 onready var screen = get_viewport_rect().size
+onready var wall_timer = $WallTimer
 onready var score_label = $UI/ScoreNumber
 onready var best_label = $UI/BestNumber
+onready var gen_label = $UI/GenNumber
+onready var average_label = $UI/AverageNumber
+onready var alive_label = $UI/AliveNumber
 
 
 func _ready():
@@ -25,7 +30,8 @@ func _ready():
 		bird.connect("score_up", self, "_on_Bird_score_up")
 		bird.connect("dead", self, "_on_Bird_dead")
 		add_child(bird)
-
+	
+	alive_label.text = str(alive)
 	create_wall()
 
 
@@ -64,6 +70,14 @@ func increase_difficulty():
 		wall_offset += 1
 
 
+func calculate_average():
+	var sum = 0
+	for bird in population.scenes:
+		sum += bird.score
+	average = float(sum) / pop_size
+	average_label.text = str(average)
+
+
 func _on_WallTimer_timeout():
 	if running:
 		create_wall()
@@ -71,6 +85,7 @@ func _on_WallTimer_timeout():
 
 
 func _on_Bird_score_up(score, _bird):
+	calculate_average()
 	score_label.text = str(score)
 	if score > best_score:
 		best_score = score
@@ -79,15 +94,15 @@ func _on_Bird_score_up(score, _bird):
 
 func _on_Bird_dead(_bird):
 	# reset simulation when all birds are dead
-	pop_size -= 1
-	if pop_size == 0:
-		pop_size = 100
+	alive -= 1
+	alive_label.text = str(alive)
+	if alive == 0:
 		reset()
 
 
 func reset():
 	running = false
-	$WallTimer.stop()
+	wall_timer.stop()
 	gap = 150
 	wall_offset = 100
 
@@ -99,6 +114,11 @@ func reset():
 		w.queue_free()
 
 	population.reincarnate()
+	gen += 1
+	average = 0
+	alive = 100
 	running = true
+	gen_label.text = str(gen)
+	score_label.text = str(0)
 	create_wall()
-	$WallTimer.start()
+	wall_timer.start()
