@@ -3,10 +3,10 @@
 [ext_resource path="res://wall/wall.gd" type="Script" id=1]
 
 [sub_resource type="QuadMesh" id=1]
-size = Vector2( 50, 600 )
+size = Vector2( 10, 600 )
 
 [sub_resource type="RectangleShape2D" id=2]
-extents = Vector2( 25, 300 )
+extents = Vector2( 5, 300 )
 
 [sub_resource type="RectangleShape2D" id=3]
 extents = Vector2( 5, 1 )

@@ -60,13 +60,13 @@ func copy():
 func mutate(rate):
 	for i in len(inputs):
 		for j in len(outputs):
-			if randf() < rate:
+			# if randf() < rate:
 				# weights[i][j] = rand_range(-1, 1)
 				# weights[i][j] *= rand_range(1-rate, 1+rate)
-				weights[i][j] = lerp(weights[i][j], rand_range(-1, 1), rate)
+			weights[i][j] = lerp(weights[i][j], rand_range(-1, 1), rate)
 
 	for i in len(biases):
-		if randf() < rate:
+		# if randf() < rate:
 			# biases[i] = rand_range(-1, 1)
 			# biases[i] *= rand_range(1-rate, 1+rate)
-			biases[i] = lerp(biases[i], rand_range(-1, 1), rate)
+		biases[i] = lerp(biases[i], rand_range(-1, 1), rate)

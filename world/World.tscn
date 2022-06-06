@@ -17,7 +17,7 @@ autostart = true
 position = Vector2( 172, 0 )
 
 [node name="DeadUp" type="StaticBody2D" parent="DeadZone"]
-position = Vector2( 0, -21 )
+position = Vector2( 0, -71 )
 collision_layer = 2
 collision_mask = 0
 
@@ -25,7 +25,7 @@ collision_mask = 0
 shape = SubResource( 1 )
 
 [node name="DeadDown" type="StaticBody2D" parent="DeadZone"]
-position = Vector2( 0, 624 )
+position = Vector2( 0, 674 )
 collision_layer = 2
 collision_mask = 0
 
