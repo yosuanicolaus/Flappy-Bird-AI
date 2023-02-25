@@ -1,6 +1,6 @@
 extends Node2D
 
-var x = 0 setget update_x
+var x = 0 : set = update_x
 
 
 func _process(_delta):

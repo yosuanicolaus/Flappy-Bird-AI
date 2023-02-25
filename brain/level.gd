@@ -7,7 +7,7 @@ var weights = []
 var biases = []
 
 
-func _init(input_count, output_count):
+func _init(input_count,output_count):
 	inputs.resize(input_count)
 	outputs.resize(output_count)
 	biases.resize(output_count)
@@ -21,10 +21,10 @@ func _init(input_count, output_count):
 func _randomize():
 	for i in len(inputs):
 		for j in len(outputs):
-			weights[i][j] = rand_range(-1, 1)
+			weights[i][j] = randf_range(-1, 1)
 
 	for i in len(biases):
-		biases[i] = rand_range(-1, 1)
+		biases[i] = randf_range(-1, 1)
 
 
 static func feed_forward(given_inputs, level: Level):
@@ -61,12 +61,12 @@ func mutate(rate):
 	for i in len(inputs):
 		for j in len(outputs):
 			# if randf() < rate:
-				# weights[i][j] = rand_range(-1, 1)
-				# weights[i][j] *= rand_range(1-rate, 1+rate)
-			weights[i][j] = lerp(weights[i][j], rand_range(-1, 1), rate)
+				# weights[i][j] = randf_range(-1, 1)
+				# weights[i][j] *= randf_range(1-rate, 1+rate)
+			weights[i][j] = lerp(weights[i][j], randf_range(-1, 1), rate)
 
 	for i in len(biases):
 		# if randf() < rate:
-			# biases[i] = rand_range(-1, 1)
-			# biases[i] *= rand_range(1-rate, 1+rate)
-		biases[i] = lerp(biases[i], rand_range(-1, 1), rate)
+			# biases[i] = randf_range(-1, 1)
+			# biases[i] *= randf_range(1-rate, 1+rate)
+		biases[i] = lerp(biases[i], randf_range(-1, 1), rate)

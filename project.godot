@@ -6,39 +6,18 @@
 ;   [section] ; section goes between []
 ;   param=value ; assign values to parameters
 
-config_version=4
-
-_global_script_classes=[ {
-"base": "Resource",
-"class": "Level",
-"language": "GDScript",
-"path": "res://brain/level.gd"
-}, {
-"base": "Resource",
-"class": "NeuralNetwork",
-"language": "GDScript",
-"path": "res://brain/neural_network.gd"
-}, {
-"base": "Object",
-"class": "Population",
-"language": "GDScript",
-"path": "res://world/population.gd"
-} ]
-_global_script_class_icons={
-"Level": "",
-"NeuralNetwork": "",
-"Population": ""
-}
+config_version=5
 
 [application]
 
 config/name="Flappy Bird AI"
 run/main_scene="res://world/World.tscn"
+config/features=PackedStringArray("4.0")
 config/icon="res://icon.png"
 
 [display]
 
-window/size/width=400
+window/size/viewport_width=400
 window/size/resizable=false
 
 [layer_names]

@@ -1,103 +1,115 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=4 format=3 uid="uid://bu06bxw2sw637"]
 
-[ext_resource path="res://world/world.gd" type="Script" id=2]
-[ext_resource path="res://_config/athletic_font.tres" type="Theme" id=3]
+[ext_resource type="Script" path="res://world/world.gd" id="2"]
+[ext_resource type="Theme" uid="uid://ctk6ixjuplnh8" path="res://_config/athletic_font.tres" id="3"]
 
-[sub_resource type="RectangleShape2D" id=1]
-extents = Vector2( 100, 20 )
+[sub_resource type="RectangleShape2D" id="1"]
+size = Vector2(200, 40)
 
-[node name="World" type="Node2D"]
-script = ExtResource( 2 )
+[node name="World3D" type="Node2D"]
+script = ExtResource("2")
 
 [node name="WallTimer" type="Timer" parent="."]
 wait_time = 2.0
 autostart = true
 
 [node name="DeadZone" type="Node2D" parent="."]
-position = Vector2( 172, 0 )
+position = Vector2(172, 0)
 
 [node name="DeadUp" type="StaticBody2D" parent="DeadZone"]
-position = Vector2( 0, -71 )
+position = Vector2(0, -71)
 collision_layer = 2
 collision_mask = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="DeadZone/DeadUp"]
-shape = SubResource( 1 )
+shape = SubResource("1")
 
 [node name="DeadDown" type="StaticBody2D" parent="DeadZone"]
-position = Vector2( 0, 674 )
+position = Vector2(0, 674)
 collision_layer = 2
 collision_mask = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="DeadZone/DeadDown"]
-shape = SubResource( 1 )
+shape = SubResource("1")
 
 [node name="UI" type="Control" parent="."]
-margin_right = 40.0
-margin_bottom = 40.0
-theme = ExtResource( 3 )
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+theme = ExtResource("3")
 
 [node name="ScoreLabel" type="Label" parent="UI"]
-margin_right = 92.0
-margin_bottom = 41.0
+layout_mode = 0
+offset_right = 92.0
+offset_bottom = 41.0
 text = "Score:"
 
 [node name="ScoreNumber" type="Label" parent="UI"]
-margin_left = 103.0
-margin_right = 187.0
-margin_bottom = 41.0
+layout_mode = 0
+offset_left = 103.0
+offset_right = 187.0
+offset_bottom = 41.0
 text = "0"
 
 [node name="BestLabel" type="Label" parent="UI"]
-margin_top = 40.0
-margin_right = 92.0
-margin_bottom = 81.0
+layout_mode = 0
+offset_top = 40.0
+offset_right = 92.0
+offset_bottom = 81.0
 text = "Best:"
 
 [node name="BestNumber" type="Label" parent="UI"]
-margin_left = 103.0
-margin_top = 40.0
-margin_right = 187.0
-margin_bottom = 81.0
+layout_mode = 0
+offset_left = 103.0
+offset_top = 40.0
+offset_right = 187.0
+offset_bottom = 81.0
 text = "0"
 
 [node name="AverageLabel" type="Label" parent="UI"]
-margin_left = 221.0
-margin_right = 330.0
-margin_bottom = 41.0
+layout_mode = 0
+offset_left = 221.0
+offset_right = 330.0
+offset_bottom = 41.0
 text = "Average"
 
 [node name="AverageNumber" type="Label" parent="UI"]
-margin_left = 344.0
-margin_right = 428.0
-margin_bottom = 41.0
+layout_mode = 0
+offset_left = 344.0
+offset_right = 428.0
+offset_bottom = 41.0
 text = "0"
 
 [node name="AliveLabel" type="Label" parent="UI"]
-margin_left = 221.0
-margin_top = 40.0
-margin_right = 313.0
-margin_bottom = 81.0
+layout_mode = 0
+offset_left = 221.0
+offset_top = 40.0
+offset_right = 313.0
+offset_bottom = 81.0
 text = "Alive"
 
 [node name="AliveNumber" type="Label" parent="UI"]
-margin_left = 344.0
-margin_top = 40.0
-margin_right = 428.0
-margin_bottom = 81.0
+layout_mode = 0
+offset_left = 344.0
+offset_top = 40.0
+offset_right = 428.0
+offset_bottom = 81.0
 text = "0"
 
 [node name="GenLabel" type="Label" parent="UI"]
-margin_top = 81.0
-margin_right = 92.0
-margin_bottom = 122.0
+layout_mode = 0
+offset_top = 81.0
+offset_right = 92.0
+offset_bottom = 122.0
 text = "Gen"
 
 [node name="GenNumber" type="Label" parent="UI"]
-margin_left = 103.0
-margin_top = 81.0
-margin_right = 187.0
-margin_bottom = 122.0
+layout_mode = 0
+offset_left = 103.0
+offset_top = 81.0
+offset_right = 187.0
+offset_bottom = 122.0
 text = "0"
 
 [connection signal="timeout" from="WallTimer" to="." method="_on_WallTimer_timeout"]

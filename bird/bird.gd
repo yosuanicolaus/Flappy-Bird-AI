@@ -1,9 +1,9 @@
 extends Node2D
 
-export var gravity = 20
-export var jump_force = 363
-export var max_speed = 400
-var fps = Engine.iterations_per_second
+@export var gravity = 20
+@export var jump_force = 363
+@export var max_speed = 400
+var fps = Engine.physics_ticks_per_second
 
 var velocity = Vector2()
 var alive = true
@@ -17,7 +17,7 @@ var brain = NeuralNetwork.new([2, 4, 1])
 
 
 func _ready():
-	$AnimatedSprite.frame = randi() % 9
+	$AnimatedSprite2D.frame = randi() % 9
 	position = get_tree().get_root().get_size() / 2
 
 

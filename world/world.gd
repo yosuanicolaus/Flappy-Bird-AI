@@ -16,48 +16,49 @@ var average = 0
 var alive = 100
 var running = true
 
-onready var screen = get_viewport_rect().size
-onready var wall_timer = $WallTimer
-onready var score_label = $UI/ScoreNumber
-onready var best_label = $UI/BestNumber
-onready var gen_label = $UI/GenNumber
-onready var average_label = $UI/AverageNumber
-onready var alive_label = $UI/AliveNumber
+@onready var screen = get_viewport_rect().size
+@onready var wall_timer = $WallTimer
+@onready var score_label = $UI/ScoreNumber
+@onready var best_label = $UI/BestNumber
+@onready var gen_label = $UI/GenNumber
+@onready var average_label = $UI/AverageNumber
+@onready var alive_label = $UI/AliveNumber
 
 
 func _ready():
 	for bird in population.scenes:
-		bird.connect("score_up", self, "_on_Bird_score_up")
-		bird.connect("dead", self, "_on_Bird_dead")
+		bird.connect("score_up",Callable(self,"_on_Bird_score_up"))
+		bird.connect("dead",Callable(self,"_on_Bird_dead"))
 		add_child(bird)
 	
 	alive_label.text = str(alive)
 	create_wall()
 
 
-func _input(event):
+func _unhandled_input(event):
 	if event is InputEventKey:
-		if event.scancode == KEY_ESCAPE:
+		if event.keycode == KEY_ESCAPE:
+			print("test")
 			running = not running
 			if running:
 				Engine.time_scale = 1
 			else:
 				Engine.time_scale = 0
-		if event.scancode == KEY_1:
+		if event.keycode == KEY_1:
 			Engine.time_scale = 1
-		if event.scancode == KEY_2:
+		if event.keycode == KEY_2:
 			Engine.time_scale = 2
-		if event.scancode == KEY_3:
+		if event.keycode == KEY_3:
 			Engine.time_scale = 3
-		if event.scancode == KEY_4:
+		if event.keycode == KEY_4:
 			Engine.time_scale = 4
 
 
 func create_wall():
 	var mid_screen_y = screen.y / 2
-	var wall_y = mid_screen_y + rand_range(-1, 1) * wall_offset
+	var wall_y = mid_screen_y + randf_range(-1, 1) * wall_offset
 	var wall_pos = Vector2(screen.x + 30, wall_y)
-	var w = Wall.instance()
+	var w = Wall.instantiate()
 	w.set_gap(gap)
 	w.position = wall_pos
 	add_child(w)
@@ -107,7 +108,7 @@ func reset():
 	wall_offset = 100
 
 	# 2 seconds delay before going to next generation
-	yield(get_tree().create_timer(2), "timeout")
+	await get_tree().create_timer(2).timeout
 
 	var walls = get_tree().get_nodes_in_group("walls")
 	for w in walls:

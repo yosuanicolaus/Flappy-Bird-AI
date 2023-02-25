@@ -8,11 +8,11 @@ var mutation_rate = 0.1
 var generation = 0
 
 
-func _init(object, population_size):
+func _init(object,population_size):
 	_Scene = object
 	scenes.resize(population_size)
 	for i in len(scenes):
-		var scene = _Scene.instance()
+		var scene = _Scene.instantiate()
 		scenes[i] = scene
 
 
